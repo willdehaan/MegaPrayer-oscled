@@ -9,9 +9,6 @@ import simulator as sim
 from pythonosc import dispatcher
 from pythonosc import osc_server
 
-animation = sim.Tk()
-app = sim.App(animation)
-
 def print_volume_handler(unused_addr, args, volume):
     print("[{0}] ~ {1}".format(args[0], volume))
 
@@ -22,7 +19,7 @@ def print_compute_handler(unused_addr, args, volume):
 
 def print_bead(one, two, three, four, five):
     print(one, two, three, four, five)
-    app.animate()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -34,9 +31,10 @@ if __name__ == "__main__":
 
     dispatcher = dispatcher.Dispatcher()
     dispatcher.map("/beadf", print_bead)
-    dispatcher.map("/update", print)
+    dispatcher.map("/update", print_update)
     #dispatcher.map("/volume", print_volume_handler, "Volume")
     #dispatcher.map("/logvolume", print_compute_handler, "Log volume", math.log)
+
 
     server = osc_server.ThreadingOSCUDPServer(
             (args.ip, args.port), dispatcher)

@@ -31,9 +31,9 @@ class App:
         self.canvas.move(self.circ1,5,5)
         #self.canvas.after(100, self.animate)
 
-    
-animation = Tk()
-app = App(animation)
-
-animation.mainloop()
-animation.destroy()
+def main():
+    animation = Tk()
+    app = App(animation)
+    while True:    
+        animation.update_idletasks()
+        animation.update()
