@@ -67,3 +67,4 @@ class ColorFade(Color):
         if (self.b >= 1):
             self.b = 1
             self.delta_b *= -1
+
