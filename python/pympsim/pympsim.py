@@ -21,8 +21,8 @@ def sim(queue):
 
 def serve(queue):
     print("Starting OSC Server...")
-    OSCserver.main()
-    queue.put('update')
+    OSCserver.main(queue)
+
 
 if __name__ == '__main__':
     queue = Queue() 
