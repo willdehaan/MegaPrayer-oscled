@@ -6,24 +6,28 @@ arguments and call start()
 """
 
 import multiprocessing
+from multiprocessing import Queue
 import simulator
 import OSCserver
 
-def sim():
+def sim(queue):
     print("Starting Simulator...")
     simulator.main()
+    while True:
+        msg = queue.get()         # Read from the queue and do nothing
+        if (msg == 'update'):
+            print("Updating")
+            break
 
-def serve():
+def serve(queue):
     print("Starting OSC Server...")
     OSCserver.main()
+    queue.put('update')
 
 if __name__ == '__main__':
-    p = multiprocessing.Process(target=sim)
-    q = multiprocessing.Process(target=serve)
+    queue = Queue() 
+    p = multiprocessing.Process(target=sim, args=((queue),))
+    q = multiprocessing.Process(target=serve, args=((queue),))
     p.start()
     q.start()
-    print(OSCserver.update)
-    while True:
-        if (OSCserver.update == 1):
-            print('time to update!')
-            OSCserver.update = 0
+
