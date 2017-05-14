@@ -17,9 +17,14 @@ def print_compute_handler(unused_addr, args, volume):
         print("[{0}] ~ {1}".format(args[0], args[1](volume)))
     except ValueError: pass
 
-def print_bead(one, two, three, four, five):
+def print_bead(unused_addr, args, q):
     #print(one, two, three, four, five)
-    queue.put(one)
+    for i in range(0, len(args)):
+        print(args[i])
+    #queue.put('one')
+    
+def print_update(addr, args, queue):
+    queue.put('update')
 
 def main(queue):
     parser = argparse.ArgumentParser()
@@ -30,8 +35,8 @@ def main(queue):
     args = parser.parse_args()
 
     dispatcher = disp.Dispatcher()
-    dispatcher.map("/beadf", print_bead)
-    dispatcher.map("/update", print_update)
+    #dispatcher.map("/beadf", print_bead, queue)
+    dispatcher.map("/update", print_update, queue)
 
     server = osc_server.ThreadingOSCUDPServer(
             (args.ip, args.port), dispatcher)
