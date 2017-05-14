@@ -31,9 +31,13 @@ class App:
         self.canvas.move(self.circ1,5,5)
         #self.canvas.after(100, self.animate)
 
-def main():
+def main(queue):
     animation = Tk()
     app = App(animation)
-    while True:    
-        animation.update_idletasks()
-        animation.update()
+    while True:
+        msg = queue.get()         # Read from the queue and do nothing
+        if (msg == 'update'):
+            animation.update_idletasks()
+            animation.update()
+            print("Updating")
+        

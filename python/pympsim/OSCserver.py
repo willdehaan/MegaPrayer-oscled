@@ -9,21 +9,13 @@ from pythonosc import dispatcher as disp
 from pythonosc import osc_server
 
 
-def print_volume_handler(unused_addr, args, volume):
-    print("[{0}] ~ {1}".format(args[0], volume))
-
-def print_compute_handler(unused_addr, args, volume):
-    try:
-        print("[{0}] ~ {1}".format(args[0], args[1](volume)))
-    except ValueError: pass
-
-def print_bead(unused_addr, args, q):
+def print_bead(addr, args):
     #print(one, two, three, four, five)
-    for i in range(0, len(args)):
-        print(args[i])
-    #queue.put('one')
+    queue = args[0]
+    queue.put('one')
     
-def print_update(addr, args, queue):
+def print_update(addr, args):
+    queue = args[0]
     queue.put('update')
 
 def main(queue):
