@@ -1,5 +1,6 @@
-from mp.effects import effect
+import copy
 from mp import color
+from mp.effects import effect
 
 class Bounce(effect.Effect):
     """
@@ -10,8 +11,11 @@ class Bounce(effect.Effect):
     self.direction is a positive or negative integer.
     """
 
-    def __init__(self, bead_set, color=color.Color(), direction=1):
-        super().__init__("bounce", bead_set, color=color)
+    # Wish there were a better way than requiring this every time
+    dm = copy.deepcopy(effect.Effect.dm)
+
+    def __init__(self, bead_set, color=color.Color(), duration=None, direction=1):
+        super().__init__("bounce", bead_set, color=color, duration=duration)
         self.direction = direction
         if (self.direction < 0):
             self.current = len(self.bead_list) - 1
@@ -28,3 +32,7 @@ class Bounce(effect.Effect):
         self.bead_list[self.current].color.set(self.color)
         if (self.current >= (len(self.bead_list) - 1) or self.current <= 0):
             self.direction *= -1
+
+    @dm.expose()
+    def set_direction(self, direction):
+        self.direction = direction

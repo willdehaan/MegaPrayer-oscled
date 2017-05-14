@@ -12,7 +12,16 @@ import OSCserver
 
 def sim(queue):
     print("Starting Simulator...")
+<<<<<<< HEAD
     simulator.main(queue)
+=======
+    #simulator.main()
+    while True:
+        msg = queue.get()         # Read from the queue and do nothing
+        if (msg == 'update'):
+            print("Updating")
+            break
+>>>>>>> d795ff7b0a8b3fbf5a367c1e3af45aad4b2c8ce3
 
 def serve(queue):
     print("Starting OSC Server...")
