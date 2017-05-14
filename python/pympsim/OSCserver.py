@@ -8,6 +8,7 @@ import math
 from pythonosc import dispatcher as disp
 from pythonosc import osc_server
 
+my_queue = None
 
 def print_volume_handler(unused_addr, args, volume):
     print("[{0}] ~ {1}".format(args[0], volume))
@@ -23,7 +24,13 @@ def print_bead(unused_addr, args, q):
         print(args[i])
     #queue.put('one')
     
-def print_update(addr, args, queue):
+#def print_update(addr, args, queue):
+def print_update(addr, args):
+    global my_queue
+    #queue.put('update')
+    print(args)
+    #my_queue.put('update')
+    queue = args[0]
     queue.put('update')
 
 def main(queue):
@@ -34,9 +41,11 @@ def main(queue):
                         type=int, default=5005, help="The port to listen on")
     args = parser.parse_args()
 
+    my_queue = queue
     dispatcher = disp.Dispatcher()
     #dispatcher.map("/beadf", print_bead, queue)
     dispatcher.map("/update", print_update, queue)
+    #dispatcher.map("/update", print_update)
 
     server = osc_server.ThreadingOSCUDPServer(
             (args.ip, args.port), dispatcher)
