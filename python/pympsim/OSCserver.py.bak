@@ -18,7 +18,7 @@ def print_bead(addr, args, beadone, beadtwo, beadthree, beadfour):
 def print_update(addr, args):
     queue = args[0]
     global beadblob
-    queue.put(beadblob)
+    queue.put('update', beadblob)
     beadblob = []
 
 def main(queue):
